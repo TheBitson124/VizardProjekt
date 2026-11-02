@@ -86,7 +86,6 @@ pigeon.state(1)
 def scalePlants(val):
 	for plant in plants:
 		plant.setScale([val]*3)
-
 #Register key events
 vizact.onkeydown('p',plants_root.visible,viz.TOGGLE)
 vizact.onkeydown('s',scalePlants,vizact.choice([1.2,0.8,1]))
