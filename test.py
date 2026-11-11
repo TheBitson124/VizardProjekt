@@ -13,11 +13,9 @@ viz.go()
 
 
 viz.phys.enable()
-model = viz.addChild('scene.osgb')
+model = viz.addChild('scene.gltf')
 model.collideMesh()
 cam = vizcam.WalkNavigate(forward='w', backward='s', left='a', right='d', moveScale=2.0)
 viz.cam.setHandler(cam)
 viz.MainView.collision(True)
 vr_active = False
-
-
