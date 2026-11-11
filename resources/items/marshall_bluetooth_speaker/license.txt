@@ -1,0 +1,11 @@
+Model Information:
+* title:	Marshall bluetooth speaker
+* source:	https://sketchfab.com/3d-models/marshall-bluetooth-speaker-c48aa0cc75394a07b5d9a718e23156b8
+* author:	Windshear_3D (https://sketchfab.com/gamerderoche18)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Marshall bluetooth speaker" (https://sketchfab.com/3d-models/marshall-bluetooth-speaker-c48aa0cc75394a07b5d9a718e23156b8) by Windshear_3D (https://sketchfab.com/gamerderoche18) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

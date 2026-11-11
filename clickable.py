@@ -1,10 +1,10 @@
 ﻿import viz
+import vizfx
 
 class ClickableObject:
-    def __init__(self, model_path, pos=[0, 0, 0]):
-        self.node = viz.addChild(model_path, pos=pos)
-        self.node.collideMesh()
-
+    def __init__(self):
+        pass
+        
     def is_part(self, picked_node):
         current = picked_node
         while current and current.valid():
@@ -21,7 +21,8 @@ class ClickableObject:
 
 class RadioObject(ClickableObject):
     def __init__(self, model_path, pos, audio_path):
-        super().__init__(model_path, pos)
+        self.node = vizfx.addChild(model_path, pos=pos)
+        self.node.collideMesh()
         self.music = viz.addAudio(audio_path)
 
     def click(self):
@@ -31,7 +32,8 @@ class RadioObject(ClickableObject):
         
 class PictureObject(ClickableObject):
     def __init__(self, model_path, pos, audio_path, image_path):
-        super().__init__(model_path, pos)
+        self.node = viz.addChild(model_path, pos=pos)
+        self.node.collideMesh()
 
         self.audio = viz.addAudio(audio_path)
         self.image = viz.addTexture(image_path)

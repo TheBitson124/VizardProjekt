@@ -23,7 +23,7 @@ viz.MainView.collision(True)
 interactables = []
 
 # Dodanie radia
-radio = RadioObject('items/radio/scene.gltf', pos=[0, 1.5, 3], audio_path='music/music_radio.mp3')
+radio = RadioObject(f'items/marshall_bluetooth_speaker/radio.osgb', pos=[0, 0, 0], audio_path='music/music_radio.mp3')
 interactables.append(radio)
 
 # Ścieżka do folderu ze zdjęciami
@@ -63,6 +63,6 @@ def check_interaction(*args):
         for obj in interactables:
             if obj.is_part(picked):
                 obj.click()
-                break # Zatrzymujemy sprawdzanie po znalezieniu trafienia
+                break 
 
 vizact.onkeydown(' ', check_interaction)
