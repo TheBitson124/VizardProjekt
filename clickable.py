@@ -20,15 +20,31 @@ class ClickableObject:
         pass
 
 class RadioObject(ClickableObject):
-    def __init__(self, model_path, pos, audio_path):
+    def __init__(self, model_path, pos, audio_data):
         self.node = vizfx.addChild(model_path, pos=pos)
         self.node.collideMesh()
-        self.music = viz.addAudio(audio_path)
+
+        self.tracks =[]
+
+        for path, volume in audio_data:
+            audio = viz.addAudio(path)
+            audio.volume(volume)
+            self.tracks.append(audio)
+
+        self.current_track = -1
 
     def click(self):
-        self.music.stop()
-        self.music.play()
-        print("Radio played")
+        for track in self.tracks:
+            track.stop()
+
+        self.current_track +=1
+
+        if self.current_track >= len(self.tracks):
+            self.current_track = -1
+            print("Radio stoped")
+        else:
+            self.tracks[self.current_track].play()
+            print("Radio played")
         
 class PictureObject(ClickableObject):
     def __init__(self, model_path, pos, audio_path, image_path):

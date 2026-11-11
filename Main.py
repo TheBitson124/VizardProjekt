@@ -23,7 +23,11 @@ viz.MainView.collision(True)
 interactables = []
 
 # Dodanie radia
-radio = RadioObject(f'items/marshall_bluetooth_speaker/radio.osgb', pos=[0, 0, 0], audio_path='music/music_radio.mp3')
+audio_data = [
+    ("music/radio/music_radio.mp3", 0.1),
+    ("music/radio/music_radio2.mp3", 0.1)
+    ]
+radio = RadioObject(f'items/marshall_bluetooth_speaker/radio.osgb', pos=[0, 0, 0], audio_data=audio_data)
 interactables.append(radio)
 
 # Ścieżka do folderu ze zdjęciami
