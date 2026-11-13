@@ -1,0 +1,11 @@
+Model Information:
+* title:	Arcade Game - Space Invaders
+* source:	https://sketchfab.com/3d-models/arcade-game-space-invaders-d3959de1a78747f58fb46915e111a265
+* author:	SINNIK (https://sketchfab.com/sinnik)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Arcade Game - Space Invaders" (https://sketchfab.com/3d-models/arcade-game-space-invaders-d3959de1a78747f58fb46915e111a265) by SINNIK (https://sketchfab.com/sinnik) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
