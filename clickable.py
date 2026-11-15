@@ -1,5 +1,6 @@
 ﻿import viz
 import vizfx
+import vizshape
 
 class ClickableObject:
     def __init__(self):
@@ -72,3 +73,22 @@ class PictureObject(ClickableObject):
         self.audio.stop()
         self.audio.play()
         print("Obraz kliknięty - muzyka gra")
+        
+        
+class LightButtonObject(ClickableObject):
+    def __init__(self, pos, color, light_target, size=(0.2, 0.2)):
+        self.node = vizshape.addQuad(size=size, pos=pos)
+        self.node.collideMesh()
+        
+        # Ustawiamy kolor przycisku
+        self.node.color(color)
+        
+        # --- DODANY KOD: Ignorowanie światła z otoczenia ---
+        self.node.disable(viz.LIGHTING)
+        
+        self.color = color
+        self.light_target = light_target
+        
+    def click(self):
+        self.light_target.color(self.color)
+        print(f"Światło zmienione na: {self.color}")
