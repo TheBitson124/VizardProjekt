@@ -138,6 +138,6 @@ if avatar and r_controller:
         except:
             print("cannot assign button")
 
-    vizact.onkeydown(' ', on_controller_trigger)
+    vizact.onkeydown(' ', on_vr_button_down)
 
 
