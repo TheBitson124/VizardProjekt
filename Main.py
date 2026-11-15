@@ -31,8 +31,8 @@ interactables = []
 
 # Dodanie radia
 audio_data = [
-    ("music/radio/music_radio.mp3", 0.1),
-    ("music/radio/music_radio2.mp3", 0.1)
+    ("music/radio/music_radio.mp3", 1.0),
+    ("music/radio/music_radio2.mp3", 1.0)
     ]
 radio = RadioObject(f'items/marshall_bluetooth_speaker/radio.osgb', pos=[0, 0, 0], audio_data=audio_data)
 interactables.append(radio)
