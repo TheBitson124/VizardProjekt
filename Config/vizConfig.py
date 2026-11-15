@@ -504,34 +504,6 @@ def initTools(initFlag=vizconnect.INIT_INDEPENDENT, initList=None):
 		if initFlag&vizconnect.INIT_PARENTS:
 			vizconnect.getTool(_name).setParent(vizconnect.getAvatar('mark').getAttachmentPoint('r_hand'))
 
-	#VC: initialize a new tool
-	_name = 'highlighter'
-	if vizconnect.isPendingInit('tool', _name, initFlag, initList):
-		#VC: init which needs to happen before viz.go
-		if initFlag&vizconnect.INIT_PREVIZGO:
-			viz.setOption('viz.display.stencil',1)
-	
-		#VC: init the raw object
-		if initFlag&vizconnect.INIT_RAW:
-			#VC: initialization code needed by the parameters
-			import tools
-			from tools import highlighter
-			
-			#VC: set some parameters
-			highlightMode = tools.highlighter.MODE_OUTLINE
-			
-			#VC: create the raw object
-			rawTool[_name] = highlighter.Highlighter(	highlightMode=highlightMode,
-																updatePriority=vizconnect.PRIORITY_ANIMATOR+3)
-	
-		#VC: init the wrapper (DO NOT EDIT)
-		if initFlag&vizconnect.INIT_WRAPPERS:
-			vizconnect.addTool(rawTool[_name], _name, make='Virtual', model='Highlighter')
-	
-		#VC: set the parent of the node
-		if initFlag&vizconnect.INIT_PARENTS:
-			vizconnect.getTool(_name).setParent(vizconnect.getAvatar('mark').getAttachmentPoint('r_hand'))
-
 	#VC: return values can be modified here
 	return None
 
