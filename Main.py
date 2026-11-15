@@ -126,12 +126,18 @@ if avatar and r_controller:
             fire_laser()
 
     def on_vr_button_down(e):
-        if e.object == raw_ctrl and current_target_node:
+        if current_target_node:
             for obj in interactables:
                 if obj.is_part(current_target_node):
                     obj.click()
                     break
+    
+    if r_controller:
+        try:
+            vizconnect.onButtonDown(vizconnect.getButton('r_button0'), on_controller_trigger)
+        except:
+            print("cannot assign button")
 
-    viz.callback(viz.SENSOR_DOWN_EVENT, on_vr_button_down)
+    vizact.onkeydown(' ', on_controller_trigger)
 
 
