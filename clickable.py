@@ -23,11 +23,20 @@ class ClickableObject:
     def highlight(self, enable):
         if hasattr(self, 'node') and self.node and self.node.valid():
             if enable:
-                self.node.polygonMode(viz.FRONT_AND_BACK, viz.WIREFRAME)
-                self.node.color(2.0, 2.0, 0.0)
+                try:
+                    self.node.color(2.0, 1.5, 0.0)
+                    self.node.emissive(0.5, 0.4, 0.0)
+                except:
+                    pass
             else:
-                self.node.polygonMode(viz.FRONT_AND_BACK, viz.FILL)
-                self.node.color(1, 1, 1)
+                try:
+                    if hasattr(self, 'color'):
+                        self.node.color(self.color)
+                    else:
+                        self.node.color(1, 1, 1)
+                    self.node.emissive(0, 0, 0)
+                except:
+                    pass
 
 class RadioObject(ClickableObject):
     def __init__(self, model_path, pos, audio_data):
