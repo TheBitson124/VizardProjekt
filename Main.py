@@ -5,7 +5,7 @@ import vizact
 import vizfx
 import vizconnect
 
-from tools import grabber
+from tools import highlighter
 from clickable import RadioObject, PictureObject
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -96,41 +96,42 @@ def check_interaction(*args):
 vizact.onkeydown(' ', check_interaction)
 
 
-
-
-# 2. LASER PRZYKLEJONY DO PRAWEJ DŁONI AWATARA (porusza się razem z Tobą)
 avatar = vizconnect.getAvatar('mark')
 r_controller = vizconnect.getInput('right_touch_controller')
 
 if avatar and r_controller:
-    # Pobieramy fizyczny węzeł prawej dłoni awatara (ten, który idzie razem z postacią)
     hand_node = avatar.getAttachmentPoint('r_hand').getNode3d()
+    
+    tool = highlighter.Highlighter(highlightMode=highlighter.MODE_OUTLINE)
 
-    # Rysujemy laser wychodzący prosto z dłoni (na 10 metrów)
-    viz.startLayer(viz.LINES)
-    viz.vertexColor(viz.RED)
-    viz.vertex(0, 0, 0)
-    viz.vertex(0, 0, 10)
-    laser = viz.endLayer()
-    laser.setParent(hand_node)
-    laser.disable(viz.INTERSECTION)
+    all_mesh_nodes = [obj.node for obj in interactables if hasattr(obj, 'node')]
+    tool.setItems(all_mesh_nodes)
+    
+    viz.link(hand_node, tool)
 
-    # Funkcja sprawdzająca, w co celuje dłoń w aktualnym miejscu pokoju
-    def fire_laser():
-        start = hand_node.getPosition(viz.ABS_GLOBAL)
-        end = hand_node.getMatrix(viz.ABS_GLOBAL).preMultVec([0, 0, 20])
+    current_target_node = None
+    
+    def onHighlight(e):
+        global current_target_node
+        current_target_node = e.new
         
-        hits = viz.intersect(start, end, all=True)
-        for hit in hits:
-            if hit.valid and trigger_clicked_object(hit.object):
-                break
-
-    # Podpięcie kliknięcia pod prawy kontroler (spust / przyciski)
+    viz.callback(highlighter.HIGHLIGHT_EVENT, onHighlight)
+    
+    vizact.ontimer(0, tool.highlight)
+    
     raw_ctrl = r_controller.getRaw()
+    
     def on_button_down(e):
         if e.object == raw_ctrl:
             fire_laser()
 
-    viz.callback(viz.SENSOR_DOWN_EVENT, on_button_down)
+    def on_vr_button_down(e):
+        if e.object == raw_ctrl and current_target_node:
+            for obj in interactables:
+                if obj.is_part(current_target_node):
+                    obj.click()
+                    break
+
+    viz.callback(viz.SENSOR_DOWN_EVENT, on_vr_button_down)
 
 
