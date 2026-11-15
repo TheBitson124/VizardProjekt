@@ -69,8 +69,17 @@ for i, img_path in enumerate(image_files):
 
 
 
+from tools import highlighter
+tool = vizconnect.getTool('highlighter').getRaw()
+#tool.setItems([radio.node,Obraz1.node,Obraz2.node,Obraz3.node,Obraz4.node,Obraz5.node,Obraz6.node,Obraz7.node,Obraz8.node,Obraz9.node,Obraz10.node,Obraz11.node,Obraz12.node,Obraz13.node])
+tool.setItems([obj.node for obj in interactables])
+tool.setHighlightMode(highlighter.MODE_BOX)
 
+def updateHighlighter(tool):
+    # Wywołuje highlight() w każdej klatce bez konieczności trzymania przycisku
+    tool.highlight()
 
+tool.setUpdateFunction(updateHighlighter)
 
 def trigger_clicked_object(hit_node):
     if hit_node and hit_node.valid():
