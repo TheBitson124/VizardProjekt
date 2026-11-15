@@ -114,16 +114,47 @@ if avatar and r_controller:
     laser = viz.endLayer()
     laser.setParent(hand_node)
     laser.disable(viz.INTERSECTION)
+    
+    def update_laser_highlight():
+        global current_highlighted_obj
+        
+        start = hand_node.getPosition(viz.ABS_GLOBAL)
+        end = hand_node.getMatrix(viz.ABS_GLOBAL).preMultVec([0, 0, 20])
+        
+        hit = viz.intersect(start, end)
+        
+        found_obj = None
+        if hit.valid and hit.object:
+            for obj in interactables:
+                if obj.is_part(hit.object):
+                    found_obj = obj
+                    break
+                    
+        if found_obj != current_highlighted_obj:
+            if current_highlighted_obj and hasattr(current_highlighted_obj, 'highlight'):
+                current_highlighted_obj.highlight(False)
+                
+            current_highlighted_obj = found_obj
+            if current_highlighted_obj and hasattr(current_highlighted_obj, 'highlight'):
+                current_highlighted_obj.highlight(True)
+
+    vizact.ontimer(0, update_laser_highlight)
 
     # Funkcja sprawdzająca, w co celuje dłoń w aktualnym miejscu pokoju
     def fire_laser():
+        global current_highlighted_obj
+        if current_highlighted_obj:
+            current_highlighted_obj.click()
+            return True
+        
         start = hand_node.getPosition(viz.ABS_GLOBAL)
         end = hand_node.getMatrix(viz.ABS_GLOBAL).preMultVec([0, 0, 20])
         
         hits = viz.intersect(start, end, all=True)
         for hit in hits:
             if hit.valid and trigger_clicked_object(hit.object):
-                break
+                return True
+        return False
 
     # Podpięcie kliknięcia pod prawy kontroler (spust / przyciski)
     raw_ctrl = r_controller.getRaw()
