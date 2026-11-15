@@ -38,35 +38,49 @@ radio = RadioObject(f'items/marshall_bluetooth_speaker/radio.osgb', pos=[0, 0, 0
 interactables.append(radio)
 
 # Ścieżka do folderu ze zdjęciami
+# Ścieżki do folderów ze zdjęciami i muzyką
 obrazy_dir = os.path.join(resources_path, 'vr_gallery_house_baked', 'Obrazy')
+music_dir = os.path.join(resources_path, 'music')
 
-# Dynamiczne wyszukiwanie plików zdjęć
-image_files = []
-if os.path.exists(obrazy_dir):
-    for filename in os.listdir(obrazy_dir):
-        if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
-            # Dodajemy pełną ścieżkę do pliku
-            image_files.append(os.path.join(obrazy_dir, filename))
-    # Sortowanie gwarantuje, że pliki zawsze będą przypisywane w tej samej kolejności
-    image_files.sort()
+# Funkcja pomocnicza szukająca pliku z danym prefiksem i rozszerzeniami
+def find_file_with_prefix(directory, prefix, extensions):
+    if not os.path.exists(directory):
+        return None
+    for filename in sorted(os.listdir(directory)):
+        if filename.startswith(prefix) and filename.lower().endswith(extensions):
+            return os.path.join(directory, filename)
+    return None
 
-# Tworzenie obrazów na podstawie znalezionych zdjęć
-for i, img_path in enumerate(image_files):
-    index = i + 1  # Numeracja plików od 1
-    model_path = f'vr_gallery_house_baked/Obraz{index}.osgb'
-    audio_path = f'music/music{index}.mp3'
+MAX_OBRAZY = 20
+
+for index in range(1, MAX_OBRAZY + 1):
+    prefix = f"{index:02d}_"
     
-    # Przykładowe pozycjonowanie. Modele w osgb mogą mieć własne transformacje, 
-    # więc pos=[0,0,0] może być odpowiednie, jeśli obrazy są już wypalone w odpowiednich miejscach.
-    position = [0, 0, 0] 
+    img_path = find_file_with_prefix(obrazy_dir, prefix, ('.png', '.jpg', '.jpeg'))
+    audio_path = find_file_with_prefix(music_dir, prefix, ('.mp3', '.wav', '.ogg'))
+    
+    # Jeśli brakuje ZDJĘCIA -> pomijamy (nawet jeśli istnieje sam plik audio)
+    if not img_path:
+        print(f"Pominięto Obraz {index} (prefiks {prefix}) - brak zdjęcia.")
+        continue
+
+    model_rel_path = f'vr_gallery_house_baked/Obraz{index}.osgb'
+    model_full_path = os.path.join(resources_path, 'vr_gallery_house_baked', f'Obraz{index}.osgb')
+    
+    if not os.path.exists(model_full_path):
+        print(f"Pominięto Obraz {index} - brak pliku modelu {model_rel_path}.")
+        continue
+
+    position = [0, 0, 0]
     
     try:
-        picture = PictureObject(model_path, pos=position, audio_path=audio_path, image_path=img_path)
+        picture = PictureObject(model_rel_path, pos=position, audio_path=audio_path, image_path=img_path)
         interactables.append(picture)
-        print(f"Załadowano: Obraz{index}.osgb | Zdjęcie: {os.path.basename(img_path)} | Audio: music{index}.mp3")
+        
+        audio_info = os.path.basename(audio_path) if audio_path else "BRAK (tylko obraz)"
+        print(f"Załadowano: Obraz{index}.osgb | Zdjęcie: {os.path.basename(img_path)} | Audio: {audio_info}")
     except Exception as e:
-        print(f"Nie udało się załadować zestawu dla indeksu {index}: {e}")
-
+        print(f"Błąd podczas ładowania zestawu dla indeksu {index}: {e}")
 
 
 from tools import highlighter

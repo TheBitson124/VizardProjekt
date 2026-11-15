@@ -52,27 +52,27 @@ class PictureObject(ClickableObject):
         self.node = viz.addChild(model_path, pos=pos)
         self.node.collideMesh()
 
-        self.audio = viz.addAudio(audio_path)
+        # Ładujemy audio tylko jeśli plik dźwiękowy został znaleziony
+        self.audio = viz.addAudio(audio_path) if audio_path else None
         self.image = viz.addTexture(image_path)
         
-
         geom_node = self.node
-   
-                
-        # Nałożenie tekstury (diffuse) na docelową geometrię
         geom_node.texture(self.image)
         
-        # --- DODANY KOD: Obrót tekstury o 180 stopni ---
+        # Obrót tekstury o 180 stopni
         mat = viz.Matrix()
-        mat.postTrans(-0.5, -0.5, 0) # Przesunięcie środka obrotu na środek obrazu
-        mat.postEuler(0, 0, 180)     # Obrót o 180 stopni wokół osi Z (w przestrzeni UV)
-        mat.postTrans(0.5, 0.5, 0)   # Przesunięcie z powrotem na właściwe miejsce
-        geom_node.texmat(mat)        # Przypisanie transformacji do materiału
+        mat.postTrans(-0.5, -0.5, 0)
+        mat.postEuler(0, 0, 180)
+        mat.postTrans(0.5, 0.5, 0)
+        geom_node.texmat(mat)
     
     def click(self):
-        self.audio.stop()
-        self.audio.play()
-        print("Obraz kliknięty - muzyka gra")
+        if self.audio:
+            self.audio.stop()
+            self.audio.play()
+            print("Obraz kliknięty - muzyka gra")
+        else:
+            print("Obraz kliknięty - brak przypisanego dźwięku")
         
         
 class LightButtonObject(ClickableObject):
