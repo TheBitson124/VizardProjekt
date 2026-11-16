@@ -52,7 +52,7 @@ class PictureObject(ClickableObject):
         self.node = viz.addChild(model_path, pos=pos)
         self.node.collideMesh()
 
-        self.audio = viz.addAudio(audio_path)
+        self.audio = viz.addAudio(audio_path) if audio_path else None
         self.image = viz.addTexture(image_path)
         
 
@@ -68,9 +68,12 @@ class PictureObject(ClickableObject):
         geom_node.texmat(mat)        
     
     def click(self):
-        self.audio.stop()
-        self.audio.play()
-        print("Obraz kliknięty - muzyka gra")
+        if self.audio:
+            self.audio.stop()
+            self.audio.play()
+            print("Obraz kliknięty - muzyka gra")
+        else:
+            print("Obraz kliknięty - brak przypisanego dźwięku")
         
         
 class LightButtonObject(ClickableObject):
