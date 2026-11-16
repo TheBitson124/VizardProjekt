@@ -12,10 +12,10 @@ class BaseInteractionStrategy:
 class VRInteractionStrategy(BaseInteractionStrategy):
     def __init__(self, map):
         if viz.hmd.getSensor() is None:
-            raise Exception("Brak podłączonego zestawu VR (HMD)")
+            raise Exception("Brak podlaczonego zestawu VR (HMD)")
 
         vizconnect.go('Config/vizConfig.py')
-        # Wyłączenie chodzenia gałkami (TRUE ZEBY MOZNA BYLO):
+        # Wylaczenie chodzenia galkami (TRUE ZEBY MOZNA BYLO):
         vizconnect.getTransport('wandmagiccarpet').setEnabled(True)
 
         avatar = vizconnect.getAvatar('mark')
@@ -57,12 +57,11 @@ class VRInteractionStrategy(BaseInteractionStrategy):
             viz.callback(viz.SENSOR_DOWN_EVENT, on_button_down)
 
             tool = vizconnect.getTool('highlighter').getRaw()
-            #tool.setItems([radio.node,Obraz1.node,Obraz2.node,Obraz3.node,Obraz4.node,Obraz5.node,Obraz6.node,Obraz7.node,Obraz8.node,Obraz9.node,Obraz10.node,Obraz11.node,Obraz12.node,Obraz13.node])
             tool.setItems([obj.node for obj in map.interactables])
             tool.setHighlightMode(highlighter.MODE_BOX)
         
             def updateHighlighter(tool):
-                # Wywołuje highlight() w każdej klatce bez konieczności trzymania przycisku
+                # Wywoluje highlight() w kazdej klatce bez koniecznosci trzymania przycisku
                 tool.highlight()
         
             tool.setUpdateFunction(updateHighlighter)
@@ -91,7 +90,7 @@ class DesktopInteractionStrategy(BaseInteractionStrategy):
         vizact.onkeydown(' ', check_interaction)
         
         def on_mouse_down(button):
-            if button == 0:  # Lewy przycisk myszy
+            if button == 0:  
                 check_interaction()
                 
         viz.callback(viz.MOUSEDOWN_EVENT, on_mouse_down)
