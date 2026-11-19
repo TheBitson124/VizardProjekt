@@ -4,6 +4,7 @@ import vizcam
 import vizact
 import vizconnect
 
+
 import galleryMap
 from interaction_strategies import VRInteractionStrategy,DesktopInteractionStrategy
 
@@ -17,5 +18,4 @@ try:
     strategy = VRInteractionStrategy(map)
 except:
     print("No VR connected, switching to PC")
-    viz.go()
     strategy = DesktopInteractionStrategy(galleryMap)

@@ -11,8 +11,8 @@ class BaseInteractionStrategy:
 
 class VRInteractionStrategy(BaseInteractionStrategy):
     def __init__(self, map):
-        if viz.hmd.getSensor() is None:
-            raise Exception("Brak podlaczonego zestawu VR (HMD)")
+        #if viz.hmd.getSensor() is None:
+            #raise Exception("Brak podlaczonego zestawu VR (HMD)")
 
         vizconnect.go('Config/vizConfig.py')
         # Wylaczenie chodzenia galkami (TRUE ZEBY MOZNA BYLO):
